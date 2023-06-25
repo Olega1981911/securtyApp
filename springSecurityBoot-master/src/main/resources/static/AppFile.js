@@ -156,7 +156,7 @@ function showModal(form, modal, id) {
 function fillRoles(form) {
     roleList.forEach(role => {
         let option = `<option value="${role.id}">
-                                 ${role.roleName}
+                                 ${role.roles}
                             </option>`
         $(`[name="roles"]`, form).append(option)
     })
