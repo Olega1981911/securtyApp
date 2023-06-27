@@ -8,10 +8,11 @@ import com.project.springsecurityboot.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
+
 import java.util.List;
 
 @RestController
@@ -28,6 +29,7 @@ public class UserRestController {
     }
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userDetailsService.findAll();
         return users != null && !users.isEmpty()
@@ -44,12 +46,14 @@ public class UserRestController {
     }
 
     @GetMapping("/roles")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roleList = roleService.getAllRoles();
         return ResponseEntity.ok(roleList);
     }
 
     @PostMapping("/users")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> saveNewUser(@RequestBody User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userDetailsService.saveUser(user);
@@ -57,14 +61,18 @@ public class UserRestController {
     }
 
     @PutMapping("/update/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, @PathVariable("id") Long id) {
         userDetailsService.update(id, user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userDetailsService.deleteUser(id);
         return ResponseEntity.ok(HttpStatus.OK);
     }
+
+
 }

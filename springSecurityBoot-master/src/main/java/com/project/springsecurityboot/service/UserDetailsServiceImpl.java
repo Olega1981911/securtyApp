@@ -7,6 +7,7 @@ import com.project.springsecurityboot.repository.UserRepository;
 import com.project.springsecurityboot.util.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,6 +49,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Optional<User> user = userRepository.findUserByLogin(username);
         return user.orElse(new User());
     }
+
 
     public List<User> findAll() {
         return userRepository.findAll();

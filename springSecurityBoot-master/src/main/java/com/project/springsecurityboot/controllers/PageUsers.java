@@ -39,6 +39,13 @@ public class PageUsers {
 
         return "user";
     }
-
+    @GetMapping("/admin")
+    public String pageToViewAllUsers(ModelMap model, Principal principal) {
+        User user = userDetailsService.findByName(principal.getName());
+        model.addAttribute("user", user);
+        model.addAttribute("allUsers", userDetailsService.findAll());
+        model.addAttribute("roleUser", roleService.getAllRoles());
+        return "admin";
+    }
 
 }
