@@ -38,11 +38,11 @@
     <div class="col-md-3 col-xl-2 py-2" style="padding-top: 15px; flex: 1 6; height: 100%; background: white">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="/admin" class="nav-link" aria-current="page"
+                <a href="/api/admin" class="nav-link" aria-current="page"
                 >Admin</a>
             </li>
             <li class="nav-item">
-                <a href="/user" class="nav-link active" aria-current="page">User</a>
+                <a href="/api/user" class="nav-link active" aria-current="page">User</a>
             </li>
         </ul>
     </div>
@@ -70,7 +70,21 @@
                             <th>Role</th>
                         </tr>
                         </thead>
-                        <tbody class="users-table"></tbody>
+                        <tbody class="users-table">
+
+                        <tr>
+                            <td th:text="${user.getId()}"></td>
+                            <td th:text="${user.getName()}"></td>
+                            <td th:text="${user.getLastName()}"></td>
+                            <td th:text="${user.getAge()}"></td>
+                            <td th:text="${user.getEmail()}"></td>
+                            <td th:text="${user.getPassword()}"></td>
+                            <td th:text="${user.getLogin()}"></td>
+                            <td th:text="${user.getRoles()}"></td>
+                        </tr>
+
+
+                        </tbody>
                     </table>
                     <br/>
 
@@ -79,15 +93,13 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
-        integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
-        crossorigin="anonymous"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="/AppFile.js"></script>
+
 </body>
 </html>

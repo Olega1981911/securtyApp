@@ -32,14 +32,16 @@ public class UserRestController {
         this.userDetailsService = userDetailsService;
     }
     @GetMapping("/user")
-    public ModelAndView index(Principal principal) {
+    public ModelAndView index(Model model,Principal principal) {
+        System.out.println("\n\n\n\n\n" + "Hello");
         ModelAndView mav= new ModelAndView("user");
         User user = userDetailsService.findByName(principal.getName());
-        mav.addObject("user", user);
+        System.out.println("\n\n\n\n\n" + user.getLogin());
+        model.addAttribute("user",user);
         return mav;
     }
 
-    /*@GetMapping()
+   /* @GetMapping()
     public ResponseEntity<User> getAuthenticatedUser(Principal principal) {
         User user = userDetailsService.findByName(principal.getName());
         return user != null
@@ -47,6 +49,7 @@ public class UserRestController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }*/
    @GetMapping("/admin")
+   @PreAuthorize("hasRole('ROLE_ADMIN')")
    public ModelAndView startPage(ModelMap model, Principal principal) {
        ModelAndView admin = new ModelAndView("admin");
        User user = userDetailsService.findByName(principal.getName());
@@ -72,7 +75,7 @@ public class UserRestController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/users/roles")
+    @GetMapping("/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roleList = roleService.getAllRoles();
         return ResponseEntity.ok(roleList);
