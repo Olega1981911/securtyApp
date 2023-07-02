@@ -46,10 +46,10 @@ public class DemoInit {
         roleService.save(roleAdmin);
         roleService.save(roleUser);
 
-        User admin = new User("Petya", "Ivanov", (byte) 27, "admin@mail.ru","admin"
+        User admin = new User("Jon", "Def", (byte) 27, "admin@mail.com","admin"
                 , "Admin",
                 setAdminRole()); // пароль: admin
-        User user = new User("Vasya", "Petrov", (byte) 17, "user@mail.ru",
+        User user = new User("Vasa", "Petrov", (byte) 17, "user@mail.com",
                 "user", "User",
                 setRoleUser()); // пароль: user
 

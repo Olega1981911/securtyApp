@@ -47,7 +47,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public User findByName(String username) {
         Optional<User> user = userRepository.findUserByLogin(username);
-        return user.orElse(new User());
+        return user.orElse(null);
     }
 
 
@@ -67,8 +67,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Transactional
-    public void update(long id, User updateUser) {
-        updateUser.setId(id);
+    public void update(User updateUser) {
         userRepository.save(updateUser);
     }
 

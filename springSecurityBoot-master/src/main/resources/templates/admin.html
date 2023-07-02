@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div>
                 <div class="text-white me-auto d-inline-block">
-                    <strong class="text-white" style="font-size: 1.5em" th:utext="${user.getName()}">
+                    <strong class="text-white" style="font-size: 1.5em" th:utext="${user.getLogin()}">
                         Username@mail.ru
                     </strong>
                 </div>
@@ -93,7 +93,7 @@
                                 <tbody class="users-table"></tbody>
                             </table>
 
-                                    <!-- модальное окно Edit -->
+                            <!-- модальное окно Edit -->
                             <div class="modal fade edit-modal" tabindex="-1" >
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -110,7 +110,7 @@
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Name</h6>
                                                     <input type="text" name="name" class="form-control" placeholder="Name">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Last name</h6>
-                                                    <input type="text" name="lastName" class="form-control" placeholder="Last name">
+                                                    <input type="text" name="lastName" class="form-control" placeholder="Lastname">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Age</h6>
                                                     <input type="number" name="age" class="form-control" placeholder="Age">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Email</h6>
@@ -134,7 +134,7 @@
                                 </div>
                             </div>
 
-                                    <!-- модальное окно Delete -->
+                            <!-- модальное окно Delete -->
                             <div class="modal fade delete-modal" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -145,13 +145,13 @@
                                         <div class="modal-body" style="display: flex; align-items: center; justify-content: center">
                                             <form class="delete-form" id="delete-form">
                                                 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center">
-                                                    <input type="hidden" name="username" />
+                                                    <input type="hidden" name="login" />
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">ID</h6>
                                                     <input type="text" name="id" disabled class="form-control" placeholder="ID">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Name</h6>
                                                     <input type="text" name="name" disabled class="form-control" placeholder="Name">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Last name</h6>
-                                                    <input type="text" name="lastName" disabled class="form-control" placeholder="Last name">
+                                                    <input type="text" name="lastName" disabled class="form-control" placeholder="Lastname">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Age</h6>
                                                     <input type="text" name="age" disabled class="form-control" placeholder="Age">
                                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Email</h6>
@@ -178,13 +178,13 @@
                     </div>
                 </div>
                 <!-- закладка new user -->
-                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div id="new-user" class="tab-pane fade" role="tabpanel" aria-labelledby="nav-profile-tab">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title" style="margin: 5px 0">Add new user</h5>
                         </div>
                         <div class="card-body" style="display: flex; align-items: center; justify-content: center">
-                            <form th:method="POST" th:action="@{/admin}" style="flex: auto; max-width: 30% ">
+                            <form id="new-user-form" style="flex: auto; max-width: 30% ">
                                 <div style="width: 100%; display: flex; flex-direction: column;  align-items: center; justify-content: center">
                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Name</h6>
                                     <input required style="background-color: khaki" type="text" name="name"
@@ -215,11 +215,8 @@
                                     <input required style="background-color: khaki" type="text" name="login"
                                            class="form-control" placeholder="Login">
                                     <h6 class="card-title" style="margin: 5px 0; text-align: center">Role</h6>
-                                    <select required multiple class="form-control" size="2" id="roles" name="role">
-                                        <option th:each="role : ${roleUser}"
-                                                th:text="${role.name}"
-                                                th:value="${role.id}">
-                                        </option>
+                                    <select id="new-roles" required multiple class="form-control" size="2" name="roles">
+
                                     </select>
                                     <button style="margin: 10px 0" type="submit" class="btn btn-lg btn-success">Add new
                                         user
@@ -233,7 +230,9 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.4.slim.min.js"
+        integrity="sha256-a2yjHM4jnF9f54xUQakjZGaqYs/V1CYvWpoqZzC2/Bw="
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"
         crossorigin="anonymous"></script>

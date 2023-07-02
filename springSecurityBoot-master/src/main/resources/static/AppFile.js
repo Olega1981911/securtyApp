@@ -27,7 +27,7 @@ function getAllUsers() {
                         <td>${user.email}</td>
                         <td>${user.password}</td>
                         <td>${user.login}</td>
-                        <td>${user.roles.map(r => r.role.substring(5))}</td>  
+                        <td>${user.roles.map(r => r.name.substring(5))}</td>  
                         <td>
                             <button type="button" class="btn btn-info text-white" data-bs-toggle="modal"
                             onclick="showEditModal(${user.id})">Edit</button>
@@ -58,7 +58,7 @@ function newUser(){
             age:  $(`[name="age"]` , newUserForm).val(),
             email:  $(`[name="email"]` , newUserForm).val(),
             password:  $(`[name="password"]` , newUserForm).val(),
-            username:  $(`[name="login"]` , newUserForm).val(),
+            login:  $(`[name="login"]` , newUserForm).val(),
 
             roles: getRole(newUserForm)
         })
@@ -95,7 +95,7 @@ function showEditModal(id) {
             age:  $(`[name="age"]` , editForm).val(),
             email:  $(`[name="email"]` , editForm).val(),
             password:  $(`[name="password"]` , editForm).val(),
-            username:  $(`[name="login"]` , editForm).val(),
+            login:  $(`[name="login"]` , editForm).val(),
             roles: getRole(editForm)
         })
         fetch(URL, {
@@ -156,7 +156,7 @@ function showModal(form, modal, id) {
 function fillRoles(form) {
     roleList.forEach(role => {
         let option = `<option value="${role.id}">
-                                 ${role.roles}
+                                 ${role.name}
                             </option>`
         $(`[name="roles"]`, form).append(option)
     })

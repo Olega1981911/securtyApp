@@ -10,9 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -27,9 +31,32 @@ public class UserRestController {
         this.roleService = roleService;
         this.userDetailsService = userDetailsService;
     }
-
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ModelAndView index(Principal principal) {
+        ModelAndView mav= new ModelAndView("user");
+        User user = userDetailsService.findByName(principal.getName());
+        mav.addObject("user", user);
+        return mav;
+    }
+
+    /*@GetMapping()
+    public ResponseEntity<User> getAuthenticatedUser(Principal principal) {
+        User user = userDetailsService.findByName(principal.getName());
+        return user != null
+                ? new ResponseEntity<>(user, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }*/
+   @GetMapping("/admin")
+   public ModelAndView startPage(ModelMap model, Principal principal) {
+       ModelAndView admin = new ModelAndView("admin");
+       User user = userDetailsService.findByName(principal.getName());
+       model.addAttribute("user", user);
+       model.addAttribute("allUsers", userDetailsService.findAll());
+       model.addAttribute("roleUser", roleService.getAllRoles());
+       return admin;
+   }
+
+    @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userDetailsService.findAll();
         return users != null && !users.isEmpty()
@@ -37,7 +64,7 @@ public class UserRestController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/users/{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Long id) {
         User user = userDetailsService.findOne(id);
         return user != null
@@ -45,8 +72,7 @@ public class UserRestController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/roles")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/users/roles")
     public ResponseEntity<List<Role>> getAllRoles() {
         List<Role> roleList = roleService.getAllRoles();
         return ResponseEntity.ok(roleList);
@@ -60,14 +86,15 @@ public class UserRestController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/users")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user, @PathVariable("id") Long id) {
-        userDetailsService.update(id, user);
+    public ResponseEntity<HttpStatus> updateUser(@RequestBody User user) {
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        userDetailsService.update(user);
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/users/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userDetailsService.deleteUser(id);
